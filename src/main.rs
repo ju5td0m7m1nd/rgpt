@@ -3,15 +3,19 @@ use std::fs::File;
 use std::io::Read;
 
 use clap::{App, Arg};
-use reqwest::{header, Client, Error as ReqwestError};
+use dotenv::dotenv;
+use reqwest::{header, Client};
 use serde_json::{from_str, json, Map, Value};
 
 // Constants for the OpenAI API endpoint and authentication
 const API_URL: &str = "https://api.openai.com/v1/";
-const AUTH_TOKEN: &str = "";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+    dotenv().ok();
+
+    let openai_api_key = std::env::var("OPENAI_API_KEY").expect("OPENAI_API_KEY must be set.");
+
     // Define command-line arguments
     let matches = App::new("rgpt")
         .version("0.1")
@@ -42,7 +46,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let client = Client::new();
     let response = client
         .post(&format!("{}chat/completions", API_URL))
-        .header(header::AUTHORIZATION, format!("Bearer {}", AUTH_TOKEN))
+        .header(header::AUTHORIZATION, format!("Bearer {}", openai_api_key))
         .json(&json!({
             "model": "gpt-3.5-turbo",
             "messages": [
@@ -59,16 +63,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let response_body = response.json::<serde_json::Value>().await?;
     let result = response_body["choices"][0]["message"]
         .get("content")
-        .unwrap_or(&Value::Null)
-        .to_string();
+        .unwrap_or(&Value::Null);
 
-    let mut corrected_text = String::new();
-    for (i, line) in result.lines().enumerate() {
-        if i > 0 {
-            corrected_text.push('\n');
-        }
-        corrected_text.push_str(line.trim_start());
-    }
+    // let mut corrected_text = String::new();
+    // for (i, line) in result.lines().enumerate() {
+    //     if i > 0 {
+    //         corrected_text.push('\n');
+    //     }
+    //     corrected_text.push_str(line.trim_start());
+    // }
+
     println!("{}", result);
 
     Ok(())
