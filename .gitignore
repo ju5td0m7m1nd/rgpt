@@ -1,3 +1,5 @@
 /target
 
+/src/api_key.rs
+/src/settings.rs
 .env

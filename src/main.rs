@@ -1,20 +1,18 @@
 use std::error::Error;
-use std::fs::File;
-use std::io::Read;
 
 use clap::{App, Arg};
-use dotenv::dotenv;
 use reqwest::{header, Client};
 use serde_json::{from_str, json, Map, Value};
+
+mod api_key;
+mod settings;
 
 // Constants for the OpenAI API endpoint and authentication
 const API_URL: &str = "https://api.openai.com/v1/";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    dotenv().ok();
-
-    let openai_api_key = std::env::var("OPENAI_API_KEY").expect("OPENAI_API_KEY must be set.");
+    let openai_api_key = api_key::API_KEY;
 
     // Define command-line arguments
     let matches = App::new("rgpt")
@@ -25,11 +23,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .arg(Arg::with_name("text").required(true).takes_value(true))
         .get_matches();
 
-    // Load command settings from JSON file
-    let mut settings_file = File::open("settings.json")?;
-    let mut settings_json = String::new();
-    settings_file.read_to_string(&mut settings_json)?;
-    let settings: Map<String, Value> = from_str(&settings_json)?;
+    let settings: Map<String, Value> = from_str(settings::SETTINGS)?;
 
     // Get prompt for specified command
     let command = matches.value_of("command").unwrap();
