@@ -1,8 +1,8 @@
-use std::error::Error;
-
 use clap::{App, Arg};
+use colored::Colorize;
 use reqwest::{header, Client};
 use serde_json::{from_str, json, Map, Value};
+use std::error::Error;
 
 mod api_key;
 mod settings;
@@ -36,6 +36,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let text = matches.value_of("text").unwrap();
 
+    println!("{} {} \n\n", prompt, text);
+
     // Send request to OpenAI API
     let client = Client::new();
     let response = client
@@ -45,29 +47,34 @@ async fn main() -> Result<(), Box<dyn Error>> {
             "model": "gpt-3.5-turbo",
             "messages": [
                 {
-                    "role": "user",
+                    "role": "system",
                     "content": format!("{} {}", prompt, text),
+                  },
+                {
+                    "role": "user",
+                    "content": "Go",
                   },
             ],
             "temperature": 0.7,
-            "stop": ["\n"]
         }))
         .send()
         .await?;
     let response_body = response.json::<serde_json::Value>().await?;
     let result = response_body["choices"][0]["message"]
         .get("content")
-        .unwrap_or(&Value::Null);
+        .unwrap_or(&Value::Null)
+        .to_string();
+
+    let replaced_result = result.replace("\\n", "\n");
 
     // let mut corrected_text = String::new();
     // for (i, line) in result.lines().enumerate() {
     //     if i > 0 {
     //         corrected_text.push('\n');
     //     }
-    //     corrected_text.push_str(line.trim_start());
+    //     corrected_text.push_str(line);
     // }
 
-    println!("{}", result);
-
+    println!("{}", replaced_result.yellow());
     Ok(())
 }

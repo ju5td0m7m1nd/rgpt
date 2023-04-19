@@ -2,4 +2,5 @@
 
 /src/api_key.rs
 /src/settings.rs
+settings.json
 .env

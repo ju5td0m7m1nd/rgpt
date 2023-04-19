@@ -1,6 +1,6 @@
   {
     "gc": {
-      "prompt": "Do the grammar check for my following text: "
+      "prompt": "Give me the grammatically correct version of the following text: "
     },
 
     "jokes": {
