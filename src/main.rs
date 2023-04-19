@@ -19,8 +19,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // Define command-line arguments
     let matches = App::new("rgpt")
         .version("0.1")
-        .author("Your Name")
-        .about("A CLI tool for interacting with the OpenAI API")
+        .author("MH Tsai (@mhtsai_95)")
+        .about("A CLI tool for interacting with the OpenAI API with your preset commands.")
         .arg(Arg::with_name("command").required(true).takes_value(true))
         .arg(Arg::with_name("text").required(true).takes_value(true))
         .get_matches();
