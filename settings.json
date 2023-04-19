@@ -1,0 +1,10 @@
+  {
+    "gc": {
+      "prompt": "Do the grammar check for my following text: "
+    },
+
+    "jokes": {
+      "prompt": "Tell me a joke"
+    }
+  }
+  
