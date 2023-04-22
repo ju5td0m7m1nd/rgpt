@@ -14,15 +14,10 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/ju5td0m7m1nd/rgpt">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
+<img src="https://user-images.githubusercontent.com/12392676/233793965-fb55b753-ee8f-4eb4-acca-7011b9996ac5.png" alt="image" width="120" height="120">
 <h3 align="center">RGPT</h3>
 
   <p align="center">
@@ -39,6 +34,11 @@
     <a href="https://github.com/ju5td0m7m1nd/rgpt/issues">Request Feature</a> -->
   </p>
 </div>
+
+
+
+https://user-images.githubusercontent.com/12392676/233795487-e5e58da4-6a9f-4f75-9217-525ed0c35dae.mp4
+
 
 
 
